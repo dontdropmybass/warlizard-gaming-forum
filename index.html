@@ -1,1 +1,73 @@
-this is a test
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Anon Forum</title>
+        <!-- Bootstrap -->
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <!-- Materialize -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+        <link rel="stylesheet" href="style.css"/>
+    </head>
+    <body id="page-top">
+        
+        <div class="navbar-fixed">
+            <nav class="blue white-text">
+                <div class="nav-wrapper">
+                    <a href=""  class="brand-logo">Warlizards</a>
+                    <ul id="nav-mobile" class="hide-on-med-and-down" >
+                       <li id="home" style="padding-left:175px;" ><a>Home</a></li> 
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="container">
+            <div id="header" class="col sm7 center" >
+                    <h1 class="page-title">Forum Posts</h1>
+            </div>
+            <section id="search" class="col sm7 center">
+                <div class="">
+                     <div class="input-field">
+                        
+                        <input id="search" type="search" />
+                         <a id="search-btn" class="btn">Search</a>
+                        <label for="search"><i class="mdi mdi-magnify">Search</i></label>
+                        
+                    </div>
+                </div>
+            </section>
+            <section id="posts" class="col sm7 ">
+                <div id="post1" class=card>
+                    <div id=post1-title class=" card-title">
+                        Title goes here
+                    </div>
+                    <div id=post1-body class=" card-body">
+                        Body goes here blah blah blah
+                    </div>
+                    <div id=post1-footer class=card-footer>
+                        <a>13 Comments</a> <a>Add New Comment</a>
+                    </div>
+                </div>
+                <div id="post2" class=card>
+                    <div id=post2-title class=" card-title">
+                        Title goes here
+                    </div>
+                    <div id=post2-body class=" card-body">
+                        Body goes here blah blah blah
+                    </div>
+                    <div id=post2-footer class=card-footer>
+                        <a>7 Comments</a> <a>Add New Comment</a>
+                    </div>
+                </div>
+            </section>
+            
+        </div>
+    </body>
+</html>
