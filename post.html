@@ -8,27 +8,32 @@
         <!-- Bootstrap -->
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <script src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js></script>
         <!-- jQuery -->
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <!-- Materialize -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
         <link rel="stylesheet" href="style.css"/>
+        <script src="scripts/scripts.js"></script>
     </head>
     <body id="page-top">
         
         <div class="navbar-fixed">
             <nav class="blue white-text">
                 <div class="nav-wrapper">
-                    <a href=""  class="brand-logo">Warlizards</a>
+                    <a href="index.html"  class="brand-logo">Warlizards</a>
                     <ul id="nav-mobile" class="hide-on-med-and-down" >
-                       <li id="home" style="padding-left:175px;" ><a>Home</a></li> 
+                       <li id="home" style="padding-left:175px;" ><a href="index.html">Home</a></li> 
                     </ul>
                 </div>
             </nav>
         </div>
-        <section id="add" class="col s12 modal card">
+        
+        <div class="container">
+            <section id="add" style="Height:230px;" class="col modal s12 card">
             <div class="card-content">
                 <div class="card-title">Add new Comment:</div>
                 <div class="add-error"></div>
@@ -36,14 +41,10 @@
                     <label for="add-comment">Comment</label>
                     <textarea id="add-comment" style="border: none;"></textarea>
                 </div >
-                <div class="row">
-                    <a  id="exit-new" class=" btn-floating   modal-action modal-close "><i class="material-icons">keyboard_return</i></a>
-                    <a  id="save-new" class=" btn-floating   modal-action modal-close right " text="Save"><i class="material-icons">check</i></a>
-                </div>
+                    <a  id="exit-new" class=" btn-floating  modal-action modal-close "><i class="material-icons">keyboard_return</i></a>
+                    <a  id="save-new" class=" btn-floating  modal-action modal-close right " text="Save"><i class="material-icons">check</i></a>
             </div>
         </section>
-        <div class="container">
-            
             <div id="header" class="col sm7 center" >
                     <h1 class="page-title">Forum Post on this page</h1>
             </div>
@@ -88,6 +89,7 @@
                         <a href="#add" class="btn">Add New Comment</a>
                 </div>
             </section>
+            
         </div>
     </body>
 </html>
