@@ -1,6 +1,6 @@
 {
   "posts": [
-    { "id": 1, "title": "json-server", "imgLink": "http://i.imgur.com/oQTnyXF.png"  }
+    { "id": 1, "title": "json-server", "body":"What an Excellent Memem1!!@", "imgLink": "http://i.imgur.com/oQTnyXF.png"  }
   ],
   "comments": [
     { "id": 1, "body": "Nice Meme Friendo! L O L!!1!1!one", "imgLink":"", "postId": 1 }
