@@ -57,7 +57,7 @@ function getPost(postID) {
 function getComments() {
 
     $.ajax({
-        url: myroot + "/posts/" + postID + "?_embed=comments",
+        url: myroot + "/posts/" + PostID + "?_embed=comments",
         method: 'GET',
         success:function(data) {
             console.log(data);
