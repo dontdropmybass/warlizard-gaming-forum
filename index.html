@@ -33,18 +33,23 @@
         <div class="container">
             <section id="add" style="Height:280px;" class="col modal s12 card">
                 <div class="card-content">
-                    <div class="card-title">Add new Comment:</div>
+                    <div class="card-title">Add new Post:</div>
                     <div class="add-error"></div>
                     <div class="row input-field validate">
-                        <label for="add-title">Comment</label>
+                        <label for="add-title">Post title</label>
                         <textarea id="add-title" style="border: none;"></textarea>
+                    </div>
+                    <!--     NEED TO ADD VALIDATION FOR IMGUR URLS     -->
+                    <div>
+                        <label for="add-img">(optional) imgur link</label>
+                        <textarea id="add-img" style="border: none;"></textarea>
                     </div >
                     <div class="row input-field validate">
-                        <label for="add-body">Comment</label>
+                        <label for="add-body">Body</label>
                         <textarea id="add-body" style="border: none;"></textarea>
                     </div >
                         <a  id="exit-new" class=" btn-floating  modal-action modal-close "><i class="material-icons">cancel</i></a>
-                        <a  id="save-new" class=" btn-floating  modal-action modal-close right " text="Save"><i class="material-icons">check</i></a>
+                        <a  id="save-new" class=" btn-floating  modal-action modal-close right" onclick="makePost()" text="Save"><i class="material-icons">check</i></a>
                 </div>
             </section>
            

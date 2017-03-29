@@ -33,6 +33,46 @@ function getPosts() {
 
 }
 
+function makePost(){
+  //regex for imgur link
+  //http://stackoverflow.com/questions/26457485/how-would-i-detect-what-is-an-imgur-picture-link-and-what-isnt
+  var url = $("#add-img").val();
+  //nevermind this dosen't work
+  var imgur_re = new RegExp ("/^https?:\/\/(\w+\.)?imgur.com\/(\w*\d\w*)+(\.[a-zA-Z]{3})?$");
+  if(url != "" && url != ""){
+  var res = imgur_re.test(url);
+}
+else{
+  //if they didn't enter a link then it's chill
+  //no need to validate
+  res = true;
+}
+  if(res){
+    $.ajax({
+        url: root + '/posts',
+        type: 'POST',
+        data: { 
+            title: $("#add-title").val(),
+            body: $("#add-body").val(),
+            imgLink: url
+        },
+        dataType: 'json',
+    error: function (request, status, error) {
+        alert(request.responseText);
+    },
+    success:function(){
+        location.reload(true);
+    }
+
+  });
+}
+else{
+  //user entered improper URL so give them a message or something
+  }
+
+
+}
+
 $( function(){
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
