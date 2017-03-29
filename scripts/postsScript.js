@@ -18,6 +18,7 @@ function getQueryVariable(variable) {
   console.log('Query Variable ' + variable + ' not found');
 }
 function getPost(postID) {
+    debugger;
     //set global variable that way we dont have to 
     //send the same value into more functions
     PostID = postID;
