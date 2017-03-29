@@ -1,9 +1,6 @@
 var serverroot = "http://ec2-54-91-162-178.compute-1.amazonaws.com:3000";
 var localroot = "http://localhost:3000";
 var myroot = serverroot;
-var PostID;
-var serverroot = "http://ec2-54-91-162-178.compute-1.amazonaws.com:3000";
-var localroot = "http://localhost:3000";
 //we will also need a function to re-display the original post 
 //that all these comments are about
 
