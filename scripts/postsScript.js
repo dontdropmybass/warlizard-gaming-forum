@@ -1,7 +1,8 @@
 var PostID;
+var serverroot = "http://ec2-54-91-162-178.compute-1.amazonaws.com:3000";
+var localroot = "http://localhost:3000";
 //we will also need a function to re-display the original post 
 //that all these comments are about
-var url = getQueryVariable("id");
 
 function getQueryVariable(variable) {
     //debugger;
@@ -21,9 +22,8 @@ function getPost(postID) {
     debugger;
     //set global variable that way we dont have to 
     //send the same value into more functions
-    PostID = postID;
     $.ajax({
-        url: myroot + "/posts/" + postID,
+        url: serverroot + "/posts/" + postID,
         method: 'GET',
         success:function(data) {
             console.log(data);
@@ -54,10 +54,10 @@ function getPost(postID) {
 
 //theoretically this gets all the comments for a specified post
 //need to pass the value of the post though
-function getComments() {
+function getComments(id) {
 
     $.ajax({
-        url: myroot + "/posts/" + PostID + "?_embed=comments",
+        url: serverroot + "/posts/" + id + "?_embed=comments",
         method: 'GET',
         success:function(data) {
             console.log(data);
@@ -87,6 +87,7 @@ function getComments() {
 $( function(){
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
-    getPost();
-    getComments();
+    var id = getQueryVariable("id");
+    getPost(id);
+    getComments(id);
 });
