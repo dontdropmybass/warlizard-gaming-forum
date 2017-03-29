@@ -4,13 +4,13 @@ var posts;
 function getPosts() {
 
     $.ajax({
-        url: root + "/posts",
+        url: "http://ec2-54-91-162-178.compute-1.amazonaws.com:3000/posts",
         method: 'GET',
         success:function(data) {
             console.log(data);
             posts = data;
             $("#posts").html("");
-            for(i=0; i < data.length; i++){
+            for(var i=0; i < data.length; i++){
                 console.log(data[i]);
                 //console.log(data[i]['title']);
                 //console.log(data[i]['body']);
@@ -73,7 +73,7 @@ else{
 
 }
 
-$( function(){
+$(function(){
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
     getPosts();
