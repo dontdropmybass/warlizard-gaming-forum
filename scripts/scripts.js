@@ -24,7 +24,7 @@ function getPosts() {
                                         "")+
                                     "<div id='post" + i + "body' class='card-body'>" +
                                     "<p>" + data[i]['body'] + "</p>" +  "</div>" +
-                                    "<div id=footer class=card-footer><a href='/post.html#id="+i +"'>Add a Comment</a></div></div>");
+                                    "<div id=footer class=card-footer><a href='/post.html?id="+i +"'>Add a Comment</a></div></div>");
             }
 
         },
