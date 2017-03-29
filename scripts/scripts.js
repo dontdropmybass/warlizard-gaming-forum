@@ -1,16 +1,18 @@
-var root = "http://ec2-54-91-162-178.compute-1.amazonaws.com:3000";
+var serverroot = "http://ec2-54-91-162-178.compute-1.amazonaws.com:3000";
+var localroot = "http://localhost:3000";
+var myroot = serverroot;
 var posts;
 
 function getPosts() {
 
     $.ajax({
-        url: "http://ec2-54-91-162-178.compute-1.amazonaws.com:3000/posts",
+        url: myroot + "/posts",
         method: 'GET',
         success:function(data) {
             console.log(data);
             posts = data;
             $("#posts").html("");
-            for(var i=0; i < data.length; i++){
+            for(i=0; i < data.length; i++){
                 console.log(data[i]);
                 //console.log(data[i]['title']);
                 //console.log(data[i]['body']);
@@ -22,7 +24,7 @@ function getPosts() {
                                         "")+
                                     "<div id='post" + i + "body' class='card-body'>" +
                                     "<p>" + data[i]['body'] + "</p>" +  "</div>" +
-                                    "</div>");
+                                    "<div id=footer class=card-footer><a href='/post.html#id="+i +"'>Add a Comment</a></div></div>");
             }
 
         },
@@ -34,6 +36,7 @@ function getPosts() {
 }
 
 function makePost(){
+    debugger;
   //regex for imgur link
   //http://stackoverflow.com/questions/26457485/how-would-i-detect-what-is-an-imgur-picture-link-and-what-isnt
   var url = $("#add-img").val();
@@ -49,7 +52,7 @@ else{
 }
   if(res){
     $.ajax({
-        url: root + '/posts',
+        url: myroot + '/posts',
         type: 'POST',
         data: { 
             title: $("#add-title").val(),
@@ -73,7 +76,7 @@ else{
 
 }
 
-$(function(){
+$( function(){
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
     getPosts();

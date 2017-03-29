@@ -6,7 +6,7 @@ function getPost(postID) {
     //send the same value into more functions
     PostID = postID;
     $.ajax({
-        url: root + "/posts/" + postID,
+        url: myroot + "/posts/" + postID,
         method: 'GET',
         success:function(data) {
             console.log(data);
@@ -40,7 +40,7 @@ function getPost(postID) {
 function getComments() {
 
     $.ajax({
-        url: root + "/posts/" + postID + "?_embed=comments",
+        url: myroot + "/posts/" + postID + "?_embed=comments",
         method: 'GET',
         success:function(data) {
             console.log(data);
