@@ -19,40 +19,18 @@
         <link rel="stylesheet" href="styles/styles.css"/>
     </head>
     <body id="page-top">
-        
         <div class="navbar-fixed">
             <nav class="blue white-text">
                 <div class="nav-wrapper">
-                    <a href="/"  class="brand-logo"><img src="perfect.jpg" height="100"/></a>
+                    <a href="/" class="brand-logo">Warlizard Gaming Forum</a>
                     <ul id="nav-mobile" class="hide-on-med-and-down" >
-                       <li id="home" style="padding-left:175px;" ><a href="/">Home</a></li> 
+                       <li id="home"><a href="/">Home</a></li>
                     </ul>
                 </div>
             </nav>
         </div>
+
         <div class="container">
-            <section id="add" style="Height:360px;" class="col modal s12 card">
-                <div class="card-content">
-                    <div class="card-title">Add new Post:</div>
-                    <div class="add-error"></div>
-                    <div class="row input-field validate">
-                        <label for="add-title">Post title</label>
-                        <textarea id="add-title" style="border: none;"></textarea>
-                    </div>
-                    <!--     NEED TO ADD VALIDATION FOR IMGUR URLS     -->
-                    <div>
-                        <label for="add-img">(optional) imgur link</label>
-                        <textarea id="add-img" style="border: none;"></textarea>
-                    </div >
-                    <div class="row input-field validate">
-                        <label for="add-body">Body</label>
-                        <textarea id="add-body" style="border: none;"></textarea>
-                    </div >
-                        <a  id="exit-new" class=" btn-floating  modal-action modal-close "><i class="material-icons">cancel</i></a>
-                        <a  id="save-new" class=" btn-floating  modal-action modal-close right" onclick="makePost()" text="Save"><i class="material-icons">check</i></a>
-                </div>
-            </section>
-           
             <div id="header" class="col sm7 center" >
                     <h1 class="page-title">Forum Posts</h1>
             </div>
@@ -75,6 +53,29 @@
 
             </section>
             
+        </div>
+
+        <!-- modal zone -->
+        <div id="add" class="modal">
+            <div class="modal-content">
+                <h4>Add new post:</h4>
+                <div class='row input-field validate'>
+                    <input id="add-title" type='text'/>
+                    <label for="add-title" class="active">Title</label>
+                </div>
+                <div class='row input-field validate'>
+                    <textarea id='add-img'></textarea>
+                    <label for="add-img" class="active">Imgur Link</label>
+                </div>
+                <div class='row input-field validate'>
+                    <textarea id='add-body'></textarea>
+                    <label for="add-body" class="active">Body</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a onclick="makePost()" href="#!" class=" modal-action waves-effect waves-green btn-flat">Save</a>
+                <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
+            </div>
         </div>
     </body>
 </html>

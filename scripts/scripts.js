@@ -4,18 +4,20 @@ var myroot = serverroot;
 var posts;
 
 function loadComments(i) {
-    $.when(
-        $.ajax({
-            url: "/post?id="+i,
-            type: "GET"
-        }))
-        .done(function(data) {
-            debugger;
-            console.log(data);
-        })
-        .fail(function(e) {
-            debugger;
-        });
+    var href = window.location.href;
+
+    // debugger;
+    // $.when(
+    //     $.ajax({
+    //         url: "post.html?id="+posts[i].id,
+    //         type: "GET"
+    //     }))
+    //     .done(function(data) {
+    //
+    //     })
+    //     .fail(function(e) {
+    //         debugger;
+    //     });
 }
 
 function getPosts() {
@@ -40,7 +42,7 @@ function getPosts() {
                         "")+
                     "<div id='post" + i + "body' class='card-body'>" +
                     "<p>" + data[i]['body'] + "</p>" +  "</div>" +
-                    "<div id=footer class=card-footer><a onclick='loadComments('"+i +"')>Add a Comment</a></div></div>");
+                    "<div id=footer class=card-footer><a class='btn' href='post.html?id="+data[i].id+"'>Add a Comment</a></div></div>");
             }
         })
         .fail(function(e) {
@@ -77,23 +79,28 @@ function makePost(){
                 },
                 dataType: 'json'
             }))
-            .done(function(){
-                location.reload(true);
+            .done(function(data){
+                getPosts();
             })
-            .fail(function (request, status, error) {
+            .fail(function (error) {
                 alert(request.responseText);
             });
     }
-    else{
+    else {
         //user entered improper URL so give them a message or something
     }
+}
 
+function checkPageUnload(e) {
 
 }
 
 $( function(){
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
+    window.onbeforeunload = function(e) {
+        checkPageUnload(e);
+    }
     getPosts();
 });
 
