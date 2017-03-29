@@ -3,12 +3,28 @@ var localroot = "http://localhost:3000";
 var myroot = serverroot;
 var posts;
 
+function loadComments(i) {
+    $.when(
+        $.ajax({
+            url: "/post?id="+i,
+            type: "GET"
+        }))
+        .done(function(data) {
+            debugger;
+            console.log(data);
+        })
+        .fail(function(e) {
+            debugger;
+        });
+}
+
 function getPosts() {
     $.when(
         $.ajax({
-            url: myroot
+            url: myroot + "/posts"
         }))
         .done(function(data) {
+            debugger;
             console.log(data);
             posts = data;
             $("#posts").html("");
@@ -24,10 +40,11 @@ function getPosts() {
                         "")+
                     "<div id='post" + i + "body' class='card-body'>" +
                     "<p>" + data[i]['body'] + "</p>" +  "</div>" +
-                    "<div id=footer class=card-footer><a href='/post.html?id="+i +"'>Add a Comment</a></div></div>");
+                    "<div id=footer class=card-footer><a onclick='loadComments('"+i +"')>Add a Comment</a></div></div>");
             }
         })
         .fail(function(e) {
+            debugger;
             console.log(e);
         });
 }
@@ -40,10 +57,10 @@ function makePost(){
     var res = true;
     //nevermind this dosen't work
     var imgur_re = new RegExp ("/^https?:\/\/(\w+\.)?imgur.com\/(\w*\d\w*)+(\.[a-zA-Z]{3})?$");
-    if(url != "" && url != ""){
+    if (url != "" && url != "") {
         res = imgur_re.test(url);
     }
-    else{
+    else {
         //if they didn't enter a link then it's chill
         //no need to validate
         res = true;
