@@ -28,7 +28,7 @@ function getPost(postID) {
         success:function(data) {
             //console.log(data);
             posts = data;
-            $("#posts").html("");
+            $("#posts").html("<br>");
             //console.log(data);
             //console.log(data[i]['title']);
             //console.log(data[i]['body']);
