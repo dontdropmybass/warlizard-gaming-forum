@@ -1,36 +1,23 @@
 var serverroot = "http://ec2-54-91-162-178.compute-1.amazonaws.com:3000";
 var localroot = "http://localhost:3000";
 var myroot = localroot;
+var imgur_re = new RegExp ("([^\s]+(\.(jpg|png|gif|gifv|webm|bmp|JPG|PNG|GIF|GIFV|WEBM|BMP))$)");
+var static_img = new RegExp ("([^\s]+(\.(jpg|png|gif|bmp|JPG|PNG|GIF|BMP))$)");
+var gifv_img = new RegExp ("([^\s]+(\.(gifv|GIFV))$)");
+var webm_img = new RegExp ("([^\s]+(\.(webm|WEBM))$)");
 var posts;
-var ip;
+var loc;
 
-function getUserIP() {
+function getUserLocation() {
     $.when($.ajax({
-
+        url: "http://freegeoip.net/json/"
     }))
         .done(function(data) {
-            ip = data.ip;
+            loc = data;
         })
         .fail(function(error) {
             console.log(error);
         })
-}
-
-function loadComments(i) {
-    var href = window.location.href;
-
-    // debugger;
-    // $.when(
-    //     $.ajax({
-    //         url: "post.html?id="+posts[i].id,
-    //         type: "GET"
-    //     }))
-    //     .done(function(data) {
-    //
-    //     })
-    //     .fail(function(e) {
-    //         debugger;
-    //     });
 }
 
 function getPosts() {
@@ -47,15 +34,49 @@ function getPosts() {
                 console.log(data[i]);
                 //console.log(data[i]['title']);
                 //console.log(data[i]['body']);
-                $("#posts").append( "<div id='post" + i + "' class='card'>" +
-                    "<div id='post" + i + "title' class='card-title' >" +
-                    "<h3>" + data[i]['title'] + "</h3>" + "</div>" +
-                    (data[i].imgLink!=undefined&&data[i].imgLink!=""?
-                        "<img src='"+data[i].imgLink+"' class='materialboxed'/>":
-                        "")+
-                    "<div id='post" + i + "body' class='card-body'>" +
-                    "<p>" + data[i]['body'] + "</p>" +  "</div>" +
-                    "<div id=footer class=card-footer><a class='btn' href='post.html?id="+data[i].id+"'>Add a Comment</a></div></div>");
+                /*
+                This thing below changes the link holder depending on the file extension on the end
+                 */
+                if (static_img.test(data[i].imgLink)) {
+                    $("#posts").append( "<div id='post" + i + "' class='card'>" +
+                        "<div id='post" + i + "title' class='card-title' >" +
+                        "<h3>" + data[i]['title'] + getCountryFlag(data[i].country_code) + "</h3>" + "</div>" +
+                        "<img src='" + data[i].imgLink + "' class='materialboxed'/>"+
+                        "<div id='post" + i + "body' class='card-body'>" +
+                        "<p>" + data[i]['body'] + "</p>" +  "</div>" +
+                        "<div id=footer class=card-footer><a class='btn' href='post.html?id="+data[i].id+"'>View Comments</a></div></div>");
+                }
+                else if (gifv_img.test(data[i].imgLink)) {
+                    var imgthing = data[i].imgLink.replace(/(.gifv|.GIFV)$/, ".mp4");
+                    $("#posts").append( "<div id='post" + i + "' class='card'>" +
+                        "<div id='post" + i + "title' class='card-title' >" +
+                        "<h3>" + data[i]['title'] + getCountryFlag(data[i].country_code) + "</h3>" + "</div>" +
+                        "<video preload='auto' autoplay='autoplay' muted='muted' loop='loop' webkit-playsinline>" +
+                        "<source src='" + imgthing + "' type='video/mp4'/>" +
+                        "</video>" +
+                        "<div id='post" + i + "body' class='card-body'>" +
+                        "<p>" + data[i]['body'] + "</p>" +  "</div>" +
+                        "<div id=footer class=card-footer><a class='btn' href='post.html?id="+data[i].id+"'>View Comments</a></div></div>");
+                }
+                else if (webm_img.test(data[i].imgLink)) {
+                    $("#posts").append( "<div id='post" + i + "' class='card'>" +
+                        "<div id='post" + i + "title' class='card-title' >" +
+                        "<h3>" + data[i]['title'] + getCountryFlag(data[i].country_code) + "</h3>" + "</div>" +
+                        "<video preload='auto' autoplay='autoplay' muted='muted' loop='loop' webkit-playsinline>" +
+                        "<source src='" + data[i].imgLink + "' type='video/webm'/>" +
+                        "</video>" +
+                        "<div id='post" + i + "body' class='card-body'>" +
+                        "<p>" + data[i]['body'] + "</p>" + "</div>" +
+                        "<div id=footer class=card-footer><a class='btn' href='post.html?id="+data[i].id+"'>View Comment</a></div></div>");
+                }
+                else {
+                    $("#posts").append( "<div id='post" + i + "' class='card'>" +
+                        "<div id='post" + i + "title' class='card-title' >" +
+                        "<h3>" + data[i]['title'] + getCountryFlag(data[i].country_code) + "</h3>" + "</div>" +
+                        "<div id='post" + i + "body' class='card-body'>" +
+                        "<p>" + data[i]['body'] + "</p>" + "</div>" +
+                        "<div id=footer class=card-footer><a class='btn' href='post.html?id="+data[i].id+"'>View Comment</a></div></div>");
+                }
             }
         })
         .fail(function(e) {
@@ -70,7 +91,6 @@ function makePost(){
     var url = $("#add-img").val();
     var res = true;
     //nevermind this dosen't work
-    var imgur_re = new RegExp ("/^https?:\/\/(\w+\.)?imgur.com\/(\w*\d\w*)+(\.[a-zA-Z]{3})?$");
     if (url != "" && url != "") {
         res = imgur_re.test(url);
     }
@@ -87,7 +107,8 @@ function makePost(){
                 data: {
                     title: $("#add-title").val(),
                     body: $("#add-body").val(),
-                    ip: GeobytesIP,
+                    ip: loc.ip,
+                    country_code: loc.country_code,
                     imgLink: url
                 },
                 dataType: 'json'
@@ -98,9 +119,11 @@ function makePost(){
             .fail(function (error) {
                 console.log(error);
             });
+        $("#add").modal("close");
     }
     else {
         //user entered improper URL so give them a message or something
+        alert("BAD");
     }
 }
 
@@ -111,7 +134,7 @@ function checkPageUnload(e) {
 $( function(){
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
-    getUserIP();
+    getUserLocation();
     getPosts();
 });
 
