@@ -1,7 +1,20 @@
 var serverroot = "http://ec2-54-91-162-178.compute-1.amazonaws.com:3000";
 var localroot = "http://localhost:3000";
-var myroot = serverroot;
+var myroot = localroot;
 var posts;
+var ip;
+
+function getUserIP() {
+    $.when($.ajax({
+
+    }))
+        .done(function(data) {
+            ip = data.ip;
+        })
+        .fail(function(error) {
+            console.log(error);
+        })
+}
 
 function loadComments(i) {
     var href = window.location.href;
@@ -52,7 +65,6 @@ function getPosts() {
 }
 
 function makePost(){
-    debugger;
     //regex for imgur link
     //http://stackoverflow.com/questions/26457485/how-would-i-detect-what-is-an-imgur-picture-link-and-what-isnt
     var url = $("#add-img").val();
@@ -75,6 +87,7 @@ function makePost(){
                 data: {
                     title: $("#add-title").val(),
                     body: $("#add-body").val(),
+                    ip: GeobytesIP,
                     imgLink: url
                 },
                 dataType: 'json'
@@ -83,7 +96,7 @@ function makePost(){
                 getPosts();
             })
             .fail(function (error) {
-                alert(request.responseText);
+                console.log(error);
             });
     }
     else {
@@ -98,9 +111,7 @@ function checkPageUnload(e) {
 $( function(){
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
-    window.onbeforeunload = function(e) {
-        checkPageUnload(e);
-    }
+    getUserIP();
     getPosts();
 });
 
