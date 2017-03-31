@@ -79,25 +79,29 @@ function getComments(id) {
 }
 
 function makeComment(){
-    console.log($("#add-comment").val());
-    $.ajax({
-        url: myroot + '/comments',
-        type: 'POST',
-        data: {
-            body: $("#add-comment").val(),
-            imgLink: "",
-            postId: id
-        },
-        dataType: 'json'
-    })
-    .done(function(data){
-        console.log("success")
-        getComments(id);
-    })
-    .fail(function (error) {
-        console.log(request.responseText);
-    });
-    
+    //console.log($("#add-comment").val());
+    comment = $("#add-comment").val();
+    if(comment == "" || comment == null || comment == " "){
+        alert("Enter a value for comment.");
+    }else{
+        $.ajax({
+            url: myroot + '/comments',
+            type: 'POST',
+            data: {
+                body: $("#add-comment").val(),
+                imgLink: "",
+                postId: id
+            },
+            dataType: 'json'
+        })
+        .done(function(data){
+            console.log("success")
+            getComments(id);
+        })
+        .fail(function (error) {
+            console.log(request.responseText);
+        });
+    }
 }
 
 
