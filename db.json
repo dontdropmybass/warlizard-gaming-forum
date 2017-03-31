@@ -1,8 +1,54 @@
 {
   "posts": [
-    { "id": 1, "title": "json-server", "body":"What an Excellent Memem1!!@", "imgLink": "http://i.imgur.com/oQTnyXF.png"  }
+    {
+      "id": 1,
+      "title": "json-server",
+      "body": "What an Excellent Memem1!!@",
+      "ip": "",
+      "country_code": "CA",
+      "imgLink": "http://i.imgur.com/oQTnyXF.png"
+    },
+    {
+      "title": "new post",
+      "body": "woooooo",
+      "ip": "",
+      "country_code": "CA",
+      "imgLink": "",
+      "id": 2
+    },
+    {
+      "title": "another post",
+      "body": "cool",
+      "ip": "",
+      "country_code": "CA",
+      "imgLink": "",
+      "id": 3
+    },
+    {
+      "title": "cool spaceship gifv",
+      "body": "wow cool",
+      "ip": "142.177.81.18",
+      "country_code": "CA",
+      "imgLink": "http://i.imgur.com/Gk7rtDD.gifv",
+      "id": 4
+    },
+    {
+      "title": "test my ip 🅱️",
+      "body": "suuuuuup",
+      "ip": "142.177.81.18",
+      "country_code": "CA",
+      "imgLink": "",
+      "id": 5
+    }
   ],
   "comments": [
-    { "id": 1, "body": "Nice Meme Friendo! L O L!!1!1!one", "imgLink":"", "postId": 1 }
+    {
+      "id": 1,
+      "body": "Nice Meme Friendo! L O L!!1!1!one",
+      "ip": "",
+      "country_code": "CA",
+      "imgLink": "",
+      "postId": 1
+    }
   ]
 }

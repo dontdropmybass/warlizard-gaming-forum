@@ -5,6 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Anon Forum</title>
+        <script src="scripts/countryFlags.js"></script>
         <!-- Bootstrap -->
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -24,7 +25,7 @@
                 <div class="nav-wrapper">
                     <a href="/" class="brand-logo">Warlizard Gaming Forum</a>
                     <ul id="nav-mobile" class="hide-on-med-and-down" >
-                       <li id="home"><a href="/">Home</a></li>
+                       
                     </ul>
                 </div>
             </nav>
@@ -56,26 +57,27 @@
         </div>
 
         <!-- modal zone -->
-        <div id="add" class="modal">
-            <div class="modal-content">
-                <h4>Add new post:</h4>
-                <div class='row input-field validate'>
-                    <input id="add-title" type='text'/>
-                    <label for="add-title" class="active">Title</label>
-                </div>
-                <div class='row input-field validate'>
-                    <textarea id='add-img'></textarea>
-                    <label for="add-img" class="active">Imgur Link</label>
-                </div>
-                <div class='row input-field validate'>
-                    <textarea id='add-body'></textarea>
-                    <label for="add-body" class="active">Body</label>
+        <section id="add" style="Height:340px;" class="col modal s12 card">
+                <div class="card-content">
+                    <div class="card-title">Add new Comment:</div>
+                    <div class="add-error"></div>
+                    <div class="row input-field validate">
+                        <label for="add-title">Title</label>
+                        <textarea id="add-title" style="border: none;"></textarea>
+                    </div >
+                    <div class="row input-field validate">
+                        <label for="add-img">Imgur Link</label>
+                        <textarea id="add-img" style="border: none;"></textarea>
+                    </div >
+                    <div class="row input-field validate">
+                        <label for="add-body">Body</label>
+                        <textarea id="add-body" style="border: none;"></textarea>
+                    </div >
+                    <div>
+                        <a  id="exit-new"  class=" btn-floating  modal-action modal-close "><i class="material-icons">keyboard_return</i></a>
+                        <a  id="save-new" onclick="makePost()" class=" btn-floating  modal-action right "><i class="material-icons">check</i></a>
                 </div>
             </div>
-            <div class="modal-footer">
-                <a onclick="makePost()" href="#!" class=" modal-action waves-effect waves-green btn-flat">Save</a>
-                <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
-            </div>
-        </div>
+        </section>
     </body>
 </html>

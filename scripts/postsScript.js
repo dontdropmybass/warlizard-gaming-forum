@@ -2,6 +2,11 @@ var serverroot = "http://ec2-54-91-162-178.compute-1.amazonaws.com:3000";
 var localroot = "http://localhost:3000";
 var myroot = localroot;
 var id;
+var imgur_re = new RegExp ("([^\s]+(\.(jpg|png|gif|gifv|webm|bmp|JPG|PNG|GIF|GIFV|WEBM|BMP))$)");
+var static_img = new RegExp ("([^\s]+(\.(jpg|png|gif|bmp|JPG|PNG|GIF|BMP))$)");
+var gifv_img = new RegExp ("([^\s]+(\.(gifv|GIFV))$)");
+var webm_img = new RegExp ("([^\s]+(\.(webm|WEBM))$)");
+var currentPost;
 //we will also need a function to re-display the original post 
 //that all these comments are about
 
@@ -12,7 +17,7 @@ function getQueryVariable(variable) {
     for (var i=0;i<vars.length;i++) {
         var pair = vars[i].split("=");
         if (pair[0] == variable) {
-            getPost(pair[1])
+            getPost(pair[1]);
             return pair[1];
         }
     } 
@@ -20,7 +25,18 @@ function getQueryVariable(variable) {
   console.log('Query Variable ' + variable + ' not found');
 }
 
-function edit(postID) {
+function edit() {
+    $("#edit-modal").modal('open');
+    $("#edit-title").val(currentPost.title);
+    $("#edit-link").val(currentPost.imgLink);
+    $("#edit-body").val(currentPost.body);
+}
+
+function remove() {
+
+}
+
+function save() {
 
 }
 
@@ -29,25 +45,59 @@ function getPost(postID) {
         url: myroot + "/posts/" + postID,
         method: 'GET',
         success:function(data) {
+            currentPost = data;
             $.when($.ajax({
-                url: "https://jsonip.com/?callback"
+                url: "http://freegeoip.net/json/"
             }))
                 .done(function(location) {
-                    debugger;
                     $("#posts").html("");
-                    var post = "<div id='post' class='card'>" +
-                        "<div id='postTitle' class='card-title' >" +
-                        "<h3>" + data['title'] + "</h3>" + "</div>" +
-                        (data.imgLink!=undefined&&data.imgLink!=""?
-                            "<img src='"+data.imgLink+"' class='materialboxed'/>":
-                            "")+
-                        "<div id='postBody' class='card-body'>" +
-                        "<p>" + data['body'] + "</p>";
-                    if (location.ip == data.ip) {
-                        post += "<a onclick='edit("+postID+")' class='btn-floating halfway-fab waves-effect waves-light orange'><i class='material-icons'>edit</i></a>"
+                    if (static_img.test(data.imgLink)) {
+                        $("#posts").append( "<div id='post" + postID + "' class='card'>" +
+                            "<div id='post" + postID + "title' class='card-title' >" +
+                            "<h3>" + data.title + getCountryFlag(data.country_code) + "</h3>" + "</div>" +
+                            "<img src='" + data.imgLink + "' class='materialboxed'/>"+
+                            "<div id='post" + postID + "body' class='card-body'>" +
+                            "<p>" + data.body + "</p>"
+                        );
                     }
-                    post += "</div></div>";
-                    $("#posts").html(post);
+                    else if (gifv_img.test(data.imgLink)) {
+                        var imgthing = data.imgLink.replace(/(.gifv|.GIFV)$/, ".mp4");
+                        $("#posts").append( "<div id='post" + postID + "' class='card'>" +
+                            "<div id='post" + postID + "title' class='card-title' >" +
+                            "<h3>" + data.title + getCountryFlag(data.country_code) + "</h3>" + "</div>" +
+                            "<video preload='auto' autoplay='autoplay' muted='muted' loop='loop' webkit-playsinline>" +
+                            "<source src='" + imgthing + "' type='video/mp4'/>" +
+                            "</video>" +
+                            "<div id='post" + postID + "body' class='card-body'>" +
+                            "<p>" + data.body + "</p>"
+                        );
+                    }
+                    else if (webm_img.test(data.imgLink)) {
+                        $("#posts").append( "<div id='post" + postID + "' class='card'>" +
+                            "<div id='post" + postID + "title' class='card-title' >" +
+                            "<h3>" + data.title + getCountryFlag(data.country_code) + "</h3>" + "</div>" +
+                            "<video preload='auto' autoplay='autoplay' muted='muted' loop='loop' webkit-playsinline>" +
+                            "<source src='" + data.imgLink + "' type='video/webm'/>" +
+                            "</video>" +
+                            "<div id='post" + postID + "body' class='card-body'>" +
+                            "<p>" + data.body + "</p>"
+                        );
+                    }
+                    else {
+                        $("#posts").append( "<div id='post" + postID + "' class='card'>" +
+                            "<div id='post" + postID + "title' class='card-title' >" +
+                            "<h3>" + data.title + getCountryFlag(data.country_code) + "</h3>" + "</div>" +
+                            "<div id='post" + postID + "body' class='card-body'>" +
+                            "<p>" + data.body + "</p>"
+                        );
+                    }
+                    if (location.ip == data.ip) {
+                        $("#posts").append(
+                            "<a onclick='edit()' class='btn-floating halfway-fab waves-effect waves-light orange'>" +
+                            "<i class='material-icons'>edit</i></a>"
+                        );
+                    }
+                    $("#posts").append( "</div></div>");
                 })
                 .fail(function(error) {
                     console.log(error);
@@ -90,25 +140,29 @@ function getComments(id) {
 }
 
 function makeComment(){
-    console.log($("#add-comment").val());
-    $.ajax({
-        url: myroot + '/comments',
-        type: 'POST',
-        data: {
-            body: $("#add-comment").val(),
-            imgLink: "",
-            postId: id
-        },
-        dataType: 'json'
-    })
-    .done(function(data){
-        console.log("success")
-        getComments(id);
-    })
-    .fail(function (error) {
-        console.log(request.responseText);
-    });
-    
+    //console.log($("#add-comment").val());
+    comment = $("#add-comment").val();
+    if(comment == "" || comment == null || comment == " "){
+        alert("Enter a value for comment.");
+    }else{
+        $.ajax({
+            url: myroot + '/comments',
+            type: 'POST',
+            data: {
+                body: $("#add-comment").val(),
+                imgLink: "",
+                postId: id
+            },
+            dataType: 'json'
+        })
+        .done(function(data){
+            console.log("success")
+            getComments(id);
+        })
+        .fail(function (error) {
+            console.log(request.responseText);
+        });
+    }
 }
 
 
@@ -118,4 +172,6 @@ $( function(){
     id = getQueryVariable("id");
     getPost(id);
     getComments(id);
+    $("#edit-save").click(function(){save()});
+    $("#edit-delete").click(function(){remove()});
 });
