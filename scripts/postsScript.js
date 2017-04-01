@@ -1,6 +1,6 @@
 var serverroot = "http://ec2-54-91-162-178.compute-1.amazonaws.com:3000";
 var localroot = "http://localhost:3000";
-var myroot = localroot;
+var myroot = serverroot;
 var id;
 var imgur_re = new RegExp ("([^\s]+(\.(jpg|png|gif|gifv|webm|bmp|JPG|PNG|GIF|GIFV|WEBM|BMP))$)");
 var static_img = new RegExp ("([^\s]+(\.(jpg|png|gif|bmp|JPG|PNG|GIF|BMP))$)");
@@ -35,7 +35,7 @@ function edit() {
 function remove(id) {
     //should delete the post then send user back to index.html
  $.ajax({
-        url: root + '/posts/' + id,
+        url: myroot + '/posts/' + id,
         type: 'DELETE',
     error: function (request, status, error) {
         alert(request.responseText);
