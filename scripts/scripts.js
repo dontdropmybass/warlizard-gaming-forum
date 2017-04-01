@@ -1,6 +1,7 @@
 var serverroot = "http://ec2-54-91-162-178.compute-1.amazonaws.com:3000";
 var localroot = "http://localhost:3000";
 var myroot = localroot;
+//regexes added for different file types
 var imgur_re = new RegExp ("([^\s]+(\.(jpg|png|gif|gifv|webm|bmp|JPG|PNG|GIF|GIFV|WEBM|BMP))$)");
 var static_img = new RegExp ("([^\s]+(\.(jpg|png|gif|bmp|JPG|PNG|GIF|BMP))$)");
 var gifv_img = new RegExp ("([^\s]+(\.(gifv|GIFV))$)");
@@ -8,6 +9,8 @@ var webm_img = new RegExp ("([^\s]+(\.(webm|WEBM))$)");
 var posts;
 var loc;
 
+//get Users IP address
+//used for editing/deleting posts
 function getUserLocation() {
     $.when($.ajax({
         url: "http://freegeoip.net/json/"
@@ -20,6 +23,7 @@ function getUserLocation() {
         })
 }
 
+//get the post and display the image in the appropriate html
 function getPosts() {
     $.when(
         $.ajax({
@@ -86,11 +90,8 @@ function getPosts() {
 }
 
 function makePost(){
-    //regex for imgur link
-    //http://stackoverflow.com/questions/26457485/how-would-i-detect-what-is-an-imgur-picture-link-and-what-isnt
     var url = $("#add-img").val();
     var res = true;
-    //nevermind this dosen't work
     if (url != "" && url != "") {
         res = imgur_re.test(url);
     }
@@ -123,7 +124,7 @@ function makePost(){
     }
     else {
         //user entered improper URL so give them a message or something
-        alert("BAD");
+        alert("Improper image URL");
     }
 }
 

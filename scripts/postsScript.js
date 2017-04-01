@@ -32,14 +32,61 @@ function edit() {
     $("#edit-body").val(currentPost.body);
 }
 
-function remove() {
+function remove(id) {
+    //should delete the post then send user back to index.html
+ $.ajax({
+        url: root + '/posts/' + id,
+        type: 'DELETE',
+    error: function (request, status, error) {
+        alert(request.responseText);
+    },
+    success:function(){
+        location.href = 'index.html';
+    }
+
+    });
+}
+
+function save(id) {
+    var url = $("#edit-link").val();
+    var res = true;
+    //nevermind this dosen't work
+    if (url != "" && url != "") {
+        res = imgur_re.test(url);
+    }
+    else {
+        //if they didn't enter a link then it's chill
+        //no need to validate
+        res = true;
+    }
+    if(res){
+        $.when(
+            $.ajax({
+                url: myroot + '/posts/' + id,
+                type: 'POST',
+                data: {
+                    title: $("#edit-title").val(),
+                    body: $("#edit-body").val(),
+                    imgLink: url
+                },
+                dataType: 'json'
+            }))
+            .done(function(data){
+                location.reload(true); 
+            })
+            .fail(function (error) {
+                console.log(error);
+            });
+        $("#edit-modal").modal("close");
+    }
+    else {
+        //user entered improper URL so give them a message
+        alert("Improper image URL");
+    }
 
 }
 
-function save() {
-
-}
-
+//get the post and display the image in the appropriate html
 function getPost(postID) {
     $.ajax({
         url: myroot + "/posts/" + postID,
@@ -110,8 +157,7 @@ function getPost(postID) {
 
 }
 
-//theoretically this gets all the comments for a specified post
-//need to pass the value of the post though
+// gets all the comments for a specified post
 function getComments(id) {
     $("#comments").html("");
     $.ajax({
@@ -172,6 +218,6 @@ $( function(){
     id = getQueryVariable("id");
     getPost(id);
     getComments(id);
-    $("#edit-save").click(function(){save()});
-    $("#edit-delete").click(function(){remove()});
+    $("#edit-save").click(function(){save(id)});
+    $("#edit-delete").click(function(){remove(id)});
 });
