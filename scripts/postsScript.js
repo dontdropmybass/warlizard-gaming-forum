@@ -63,7 +63,7 @@ function save(id) {
         $.when(
             $.ajax({
                 url: myroot + '/posts/' + id,
-                type: 'POST',
+                type: 'PATCH',
                 data: {
                     title: $("#edit-title").val(),
                     body: $("#edit-body").val(),
