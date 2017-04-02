@@ -45,41 +45,41 @@ function getPosts() {
                 if (static_img.test(data[i].imgLink)) {
                     $("#posts").append( "<div id='post" + i + "' class='card'>" +
                         "<div id='post" + i + "title' class='card-title' >" +
-                        "<h3>" + data[i]['title'] + getCountryFlag(data[i].country_code) + "</h3>" + "</div>" +
-                        "<img src='" + data[i].imgLink + "' class='materialboxed'/>"+
+                        "<h3>" + data[i].title + getCountryFlag(data[i].country_code) + "</h3>" + "</div>" +
+                        "<img src='" + data[i].imgLink + "' class='response-img'/>"+
                         "<div id='post" + i + "body' class='card-body'>" +
-                        "<p>" + data[i]['body'] + "</p>" +  "</div>" +
+                        "<p>" + data[i].body + "</p>" +  "</div>" +
                         "<div id=footer class=card-footer><a class='btn' href='post.html?id="+data[i].id+"'>View Comments (" + data[i].comments.length + ")</a></div></div>");
                 }
                 else if (gifv_img.test(data[i].imgLink)) {
                     var imgthing = data[i].imgLink.replace(/(.gifv|.GIFV)$/, ".mp4");
                     $("#posts").append( "<div id='post" + i + "' class='card'>" +
                         "<div id='post" + i + "title' class='card-title' >" +
-                        "<h3>" + data[i]['title'] + getCountryFlag(data[i].country_code) + "</h3>" + "</div>" +
-                        "<video preload='auto' autoplay='autoplay' muted='muted' loop='loop' webkit-playsinline>" +
+                        "<h3>" + data[i].title + getCountryFlag(data[i].country_code) + "</h3>" + "</div>" +
+                        "<video class='responsive-video' preload='auto' autoplay='autoplay' muted='muted' loop='loop' webkit-playsinline>" +
                         "<source src='" + imgthing + "' type='video/mp4'/>" +
                         "</video>" +
                         "<div id='post" + i + "body' class='card-body'>" +
-                        "<p>" + data[i]['body'] + "</p>" +  "</div>" +
+                        "<p>" + data[i].body + "</p>" +  "</div>" +
                         "<div id=footer class=card-footer><a class='btn' href='post.html?id="+data[i].id+"'>View Comments (" + data[i].comments.length + ")</a></div></div>");
                 }
                 else if (webm_img.test(data[i].imgLink)) {
                     $("#posts").append( "<div id='post" + i + "' class='card'>" +
                         "<div id='post" + i + "title' class='card-title' >" +
-                        "<h3>" + data[i]['title'] + getCountryFlag(data[i].country_code) + "</h3>" + "</div>" +
-                        "<video preload='auto' autoplay='autoplay' muted='muted' loop='loop' webkit-playsinline>" +
+                        "<h3>" + data[i].title + getCountryFlag(data[i].country_code) + "</h3>" + "</div>" +
+                        "<video class='responsive-video' preload='auto' autoplay='autoplay' muted='muted' loop='loop' webkit-playsinline>" +
                         "<source src='" + data[i].imgLink + "' type='video/webm'/>" +
                         "</video>" +
                         "<div id='post" + i + "body' class='card-body'>" +
-                        "<p>" + data[i]['body'] + "</p>" + "</div>" +
+                        "<p>" + data[i].body + "</p>" + "</div>" +
                         "<div id=footer class=card-footer><a class='btn' href='post.html?id="+data[i].id+"'>View Comment (" + data[i].comments.length + ")</a></div></div>");
                 }
                 else {
                     $("#posts").append( "<div id='post" + i + "' class='card'>" +
                         "<div id='post" + i + "title' class='card-title' >" +
-                        "<h3>" + data[i]['title'] + getCountryFlag(data[i].country_code) + "</h3>" + "</div>" +
+                        "<h3>" + data[i].title + getCountryFlag(data[i].country_code) + "</h3>" + "</div>" +
                         "<div id='post" + i + "body' class='card-body'>" +
-                        "<p>" + data[i]['body'] + "</p>" + "</div>" +
+                        "<p>" + data[i].body + "</p>" + "</div>" +
                         "<div id=footer class=card-footer><a class='btn' href='post.html?id="+data[i].id+"'>View Comment (" + data[i].comments.length + ")</a></div></div>");
                 }
             }

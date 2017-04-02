@@ -7,6 +7,7 @@ var static_img = new RegExp ("([^\s]+(\.(jpg|png|gif|bmp|JPG|PNG|GIF|BMP))$)");
 var gifv_img = new RegExp ("([^\s]+(\.(gifv|GIFV))$)");
 var webm_img = new RegExp ("([^\s]+(\.(webm|WEBM))$)");
 var currentPost;
+var loc;
 //we will also need a function to re-display the original post 
 //that all these comments are about
 
@@ -96,13 +97,14 @@ function getPost(postID) {
             $.when($.ajax({
                 url: "http://ec2-54-91-162-178.compute-1.amazonaws.com:8080/json/"
             }))
-                .done(function(location) {
+                .done(function(l) {
+                    loc = l;
                     $("#posts").html("");
                     if (static_img.test(data.imgLink)) {
                         $("#posts").append( "<div id='post" + postID + "' class='card'>" +
                             "<div id='post" + postID + "title' class='card-title' >" +
                             "<h3>" + data.title + getCountryFlag(data.country_code) + "</h3>" + "</div>" +
-                            "<img src='" + data.imgLink + "' class='materialboxed'/>"+
+                            "<img src='" + data.imgLink + "' class='responsive-img'/>"+
                             "<div id='post" + postID + "body' class='card-body'>" +
                             "<p>" + data.body + "</p>"
                         );
@@ -112,7 +114,7 @@ function getPost(postID) {
                         $("#posts").append( "<div id='post" + postID + "' class='card'>" +
                             "<div id='post" + postID + "title' class='card-title' >" +
                             "<h3>" + data.title + getCountryFlag(data.country_code) + "</h3>" + "</div>" +
-                            "<video preload='auto' autoplay='autoplay' muted='muted' loop='loop' webkit-playsinline>" +
+                            "<video class='responsive-video' preload='auto' autoplay='autoplay' muted='muted' loop='loop' webkit-playsinline>" +
                             "<source src='" + imgthing + "' type='video/mp4'/>" +
                             "</video>" +
                             "<div id='post" + postID + "body' class='card-body'>" +
@@ -123,7 +125,7 @@ function getPost(postID) {
                         $("#posts").append( "<div id='post" + postID + "' class='card'>" +
                             "<div id='post" + postID + "title' class='card-title' >" +
                             "<h3>" + data.title + getCountryFlag(data.country_code) + "</h3>" + "</div>" +
-                            "<video preload='auto' autoplay='autoplay' muted='muted' loop='loop' webkit-playsinline>" +
+                            "<video class='responsive-video' preload='auto' autoplay='autoplay' muted='muted' loop='loop' webkit-playsinline>" +
                             "<source src='" + data.imgLink + "' type='video/webm'/>" +
                             "</video>" +
                             "<div id='post" + postID + "body' class='card-body'>" +
@@ -138,7 +140,7 @@ function getPost(postID) {
                             "<p>" + data.body + "</p>"
                         );
                     }
-                    if (location.ip == data.ip) {
+                    if (l.ip == data.ip) {
                         $("#posts").append(
                             "<a onclick='edit()' class='btn-floating halfway-fab waves-effect waves-light orange'>" +
                             "<i class='material-icons'>edit</i></a>"
@@ -167,14 +169,12 @@ function getComments(id) {
             console.log(data);
             for(var i=0, len = data.length; i < len; i++){
                 //debugger;
-                if(data[i]['postId'] == id){
+                if(data[i].postId == id){
                 $("#comments").append( "<div id='comment" + i + "'style='padding:10px;' class='card'>" +
-                                    (data[i].imgLink!=undefined&&data[i].imgLink!=""?
-                                        "<img src='"+data[i].imgLink+"' class='materialboxed'/>":
-                                        "")+
-                                    "<div id='comment" + i + "body' class='card-body'>" +
-                                    "<p>" + data[i]['body'] + "</p>" +  "</div>" +
-                                    "</div>");
+                    "<div id='comment" + i + "body' class='card-body'>" +
+                    "<i>" + getCountryFlag(data[i].country_code) + "</i>" +
+                    "<p>" + data[i].body + "</p>" +
+                    "</div></div>");
                 }
             }
         },
@@ -197,7 +197,9 @@ function makeComment(){
             data: {
                 body: $("#add-comment").val(),
                 imgLink: "",
-                postId: id
+                postId: id,
+                ip: loc.ip,
+                country_code: loc.country_code
             },
             dataType: 'json'
         })
