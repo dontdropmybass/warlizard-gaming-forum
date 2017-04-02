@@ -2,12 +2,12 @@
     ^^^ that's not how you comment in css
  */
 
-.navbar-material .nav-wrapper .brand-logo img {
+.brand-logo img {
     height: 64px;
 }
 
 @media (max-width: 600px) {
-    .navbar-material .nav-wrapper .brand-logo img {
+    .brand-logo img {
         height: 56px;
     }
 }
