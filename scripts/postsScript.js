@@ -94,7 +94,7 @@ function getPost(postID) {
         success:function(data) {
             currentPost = data;
             $.when($.ajax({
-                url: "http://freegeoip.net/json/"
+                url: "http://ec2-54-91-162-178.compute-1.amazonaws.com:8080/json/"
             }))
                 .done(function(location) {
                     $("#posts").html("");

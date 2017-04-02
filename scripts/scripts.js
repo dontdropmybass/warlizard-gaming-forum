@@ -2,18 +2,19 @@ var serverroot = "http://ec2-54-91-162-178.compute-1.amazonaws.com:3000";
 var localroot = "http://localhost:3000";
 var myroot = serverroot;
 //regexes added for different file types
-var imgur_re = new RegExp ("([^\s]+(\.(jpg|png|gif|gifv|webm|bmp|JPG|PNG|GIF|GIFV|WEBM|BMP))$)");
-var static_img = new RegExp ("([^\s]+(\.(jpg|png|gif|bmp|JPG|PNG|GIF|BMP))$)");
+var imgur_re = new RegExp ("([^\s]+(\.(jpg|jpeg|png|gif|gifv|webm|bmp|JPG|JPEG|PNG|GIF|GIFV|WEBM|BMP))$)");
+var static_img = new RegExp ("([^\s]+(\.(jpg|jpeg|png|gif|bmp|JPG|JPEG|PNG|GIF|BMP))$)");
 var gifv_img = new RegExp ("([^\s]+(\.(gifv|GIFV))$)");
 var webm_img = new RegExp ("([^\s]+(\.(webm|WEBM))$)");
 var posts;
 var loc;
+var query = "";
 
 //get Users IP address
 //used for editing/deleting posts
 function getUserLocation() {
     $.when($.ajax({
-        url: "http://freegeoip.net/json/"
+        url: "http://ec2-54-91-162-178.compute-1.amazonaws.com:8080/json/"
     }))
         .done(function(data) {
             loc = data;
@@ -27,7 +28,7 @@ function getUserLocation() {
 function getPosts() {
     $.when(
         $.ajax({
-            url: myroot + "/posts"
+            url: myroot + "/posts?q=" + query + "&_sort=date&_embed=comments"
         }))
         .done(function(data) {
             debugger;
@@ -48,7 +49,7 @@ function getPosts() {
                         "<img src='" + data[i].imgLink + "' class='materialboxed'/>"+
                         "<div id='post" + i + "body' class='card-body'>" +
                         "<p>" + data[i]['body'] + "</p>" +  "</div>" +
-                        "<div id=footer class=card-footer><a class='btn' href='post.html?id="+data[i].id+"'>View Comments</a></div></div>");
+                        "<div id=footer class=card-footer><a class='btn' href='post.html?id="+data[i].id+"'>View Comments (" + data[i].comments.length + ")</a></div></div>");
                 }
                 else if (gifv_img.test(data[i].imgLink)) {
                     var imgthing = data[i].imgLink.replace(/(.gifv|.GIFV)$/, ".mp4");
@@ -60,7 +61,7 @@ function getPosts() {
                         "</video>" +
                         "<div id='post" + i + "body' class='card-body'>" +
                         "<p>" + data[i]['body'] + "</p>" +  "</div>" +
-                        "<div id=footer class=card-footer><a class='btn' href='post.html?id="+data[i].id+"'>View Comments</a></div></div>");
+                        "<div id=footer class=card-footer><a class='btn' href='post.html?id="+data[i].id+"'>View Comments (" + data[i].comments.length + ")</a></div></div>");
                 }
                 else if (webm_img.test(data[i].imgLink)) {
                     $("#posts").append( "<div id='post" + i + "' class='card'>" +
@@ -71,7 +72,7 @@ function getPosts() {
                         "</video>" +
                         "<div id='post" + i + "body' class='card-body'>" +
                         "<p>" + data[i]['body'] + "</p>" + "</div>" +
-                        "<div id=footer class=card-footer><a class='btn' href='post.html?id="+data[i].id+"'>View Comment</a></div></div>");
+                        "<div id=footer class=card-footer><a class='btn' href='post.html?id="+data[i].id+"'>View Comment (" + data[i].comments.length + ")</a></div></div>");
                 }
                 else {
                     $("#posts").append( "<div id='post" + i + "' class='card'>" +
@@ -79,7 +80,7 @@ function getPosts() {
                         "<h3>" + data[i]['title'] + getCountryFlag(data[i].country_code) + "</h3>" + "</div>" +
                         "<div id='post" + i + "body' class='card-body'>" +
                         "<p>" + data[i]['body'] + "</p>" + "</div>" +
-                        "<div id=footer class=card-footer><a class='btn' href='post.html?id="+data[i].id+"'>View Comment</a></div></div>");
+                        "<div id=footer class=card-footer><a class='btn' href='post.html?id="+data[i].id+"'>View Comment (" + data[i].comments.length + ")</a></div></div>");
                 }
             }
         })
@@ -136,6 +137,10 @@ $( function(){
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
     getUserLocation();
+    $("#searchbox").on('input', function() {
+        query = $("#searchbox").val();
+        getPosts();
+    });
     getPosts();
 });
 
